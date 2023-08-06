@@ -32,49 +32,46 @@ const Header = () => {
   return (
       <nav >
         <div className='bg-gray-900 text-gray-100 py-4'>
-            <div className='border border-slate-800 border-b-zinc-50 pb-4' >
-                <div className='flex justify-between px-4 flex-col md:flex-row'>
-                    <h3 className='tracking-wider text-center mb-2 md:mb-0'>Free Shipping Over $100 & Free Returns</h3>
-                    <h3 className='tracking-wider text-center'>HotLine:+959261704445</h3>
-                </div>
-            </div>
+   
             <div className='py-4'>
-                <div className='px-4 flex justify-between items-center'>
-                    <h2 className='text-2xl md:text-3xl mr-10 font-bold'>Bounce & Back</h2>
+                <div className='px-8 flex  items-center'>
+                    <h2 className='text-2xl grow md:text-3xl mr-10 font-bold'>Bounce & Back</h2>
 
-                    <div className='flex-1 mx-7 hidden  lg:block'>
-                        <div className='flex'>
-                          <input type="text" placeholder='Search Product Here...' className='py-3 px-3 rounded-l-lg focus:outline-none text-gray-900' style={{width:"100%"}} />
+                    <div className=' hidden grow  lg:block  '>
+                        <div className='flex justify-center'>
+                          <input type="text" placeholder='Search Product Here...' className='py-3 px-3 rounded-l-lg focus:outline-none text-gray-900' style={{width:"100%"}}/>
                           <button className='bg-amber-500 px-4 py-3 rounded-r-lg'><i className="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                         
-                    </div>
-                  
-                    <div className='flex  md:flex-1 '>
-                      <Link to="/compare_products">
-                        <div className='flex items-center mx-0 md:mx-2 cursor-pointer w-7 md:w-32' >
-                            <i className="fa-solid fa-rotate text-lg md:text-3xl mr-0 md:mr-3"></i>
-                            <h3 className='font-thin hidden md:block'>Compare Products</h3>
+                    </div> 
+                    <div className='grow'>
+                      <div className='flex justify-end  '>
+                        <Link to="/compare_products">
+                          <div className='flex items-center mx-0 md:mx-2 cursor-pointer w-7 md:w-32' >
+                              <i className="fa-solid fa-rotate text-lg md:text-3xl mr-0 md:mr-3"></i>
+                              <h3 className='font-thin hidden md:block'>Compare Products</h3>
+                          </div>
+                        </Link>
+                      
+                        <Link to="/favorite" className='flex  items-center mx-0 md:mx-2 cursor-pointer  w-7 md:w-32'>
+                              <i className="fa-regular fa-heart text-lg md:text-3xl mr-0 md:mr-3"></i>
+                              <h3 className='font-thin hidden md:block'>Favourite wishlist</h3>
+                        </Link>
+                        <Link to="/login" className='flex  items-center mx-0 md:mx-2  cursor-pointer  w-7 md:w-32'>
+                          <i className="fa-regular fa-user text-lg md:text-3xl  mr-0 md:mr-3"></i>
+                          <h3 className='font-thin hidden md:block'>Log in My Account</h3>
+                        </Link>
+                        <div className='flex  items-center mx-0 md:mx-2   cursor-pointer' onClick={()=>setIsCartOpen(!isCartOpen)}>
+                          <i className="fa-solid fa-cart-shopping text-3xl text-lg md:text-3xl"></i>
+                          
                         </div>
-                      </Link>
-                    
-                      <Link to="/favorite" className='flex  items-center mx-0 md:mx-2 cursor-pointer  w-7 md:w-32'>
-                            <i className="fa-regular fa-heart text-lg md:text-3xl mr-0 md:mr-3"></i>
-                            <h3 className='font-thin hidden md:block'>Favourite wishlist</h3>
-                      </Link>
-                      <Link to="/login" className='flex  items-center mx-0 md:mx-2  cursor-pointer  w-7 md:w-32'>
-                         <i className="fa-regular fa-user text-lg md:text-3xl  mr-0 md:mr-3"></i>
-                        <h3 className='font-thin hidden md:block'>Log in My Account</h3>
-                      </Link>
-                      <div className='flex  items-center mx-0 md:mx-2   cursor-pointer' onClick={()=>setIsCartOpen(!isCartOpen)}>
-                        <i className="fa-solid fa-cart-shopping text-3xl text-lg md:text-3xl"></i>
-                        
                       </div>
                     </div>
+                   
                 </div>
             </div>
         </div>
-        <div className='px-4  bg-slate-700 py-5 text-gray-100 items-center hidden md:flex'>
+        <div className='px-8  bg-slate-700 py-5 text-gray-100 items-center hidden md:flex'>
             <div className='md:basis-5/12 lg:basis-4/12 xl:basis-3/12 relative w-full'>
               <div className='flex justify-between  cursor-pointer items-center' ref={ref} onClick={()=>setIsDropDownOpen(!isDropDownOpen)}>
                     <div>
@@ -102,17 +99,17 @@ const Header = () => {
             </div>
             <div className='md:basis-7/12 lg:basis-8/12 ml-3 xl:basis-9/12'>
                 <ul className='flex'>
-                  <li className='uppercase mx-3 text-sm'>
+                  <li className='uppercase mx-3 text-base'>
                     <Link to='/'>Home</Link>
                   </li>
                 
-                  <li className='uppercase mx-3 text-sm'>
+                  <li className='uppercase mx-3 text-base'>
                     <Link to="/products">Our Store</Link>
                   </li>
-                  <li className='uppercase mx-3 text-sm'>
+                  <li className='uppercase mx-3 text-base'>
                     <Link to="/orders">Order</Link>
                   </li>
-                  <li className='uppercase text-sm'>
+                  <li className='uppercase text-base'>
                     <Link to="/">Contact</Link>
                   </li>
                 </ul>

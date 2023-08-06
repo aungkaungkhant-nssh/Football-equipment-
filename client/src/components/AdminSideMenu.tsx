@@ -1,7 +1,12 @@
 import React from 'react'
-import { Link,useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { Link,useLocation, useNavigate } from 'react-router-dom'
+import { AppDispatch } from '../app/store';
+import { adminLogout } from '../features/adminAuth/authSlice';
 const AdminSideMenu = () => {
     const location  = useLocation();
+    const dispatch:AppDispatch = useDispatch();
+    const navigate = useNavigate()
   return (
     <div className='w-[18%] h-[90%]  overflow-y-hidden  bg-white shadow flex flex-col justify-between dark:bg-gray-900 '>
         <div>
@@ -17,6 +22,12 @@ const AdminSideMenu = () => {
                         <Link to="/admin/brands"  className={`${location.pathname.includes("brands") ? "bg-amber-100 text-amber-500" : "text-gray-600"}  px-3 py-2 rounded   cursor-pointer font-thin my-6 block text-lg hover:bg-amber-100 hover:text-amber-500 transition all duration 300`}>
                             <i className="fa-solid fa-bandage mr-3"></i>
                             <span>Brands</span>
+                        </Link>
+                    </li>
+                    <li>
+                    <Link to="/admin/categories"  className={`${location.pathname.includes("categories") ? "bg-amber-100 text-amber-500" : "text-gray-600"}  px-3 py-2 rounded   cursor-pointer font-thin my-6 block text-lg hover:bg-amber-100 hover:text-amber-500 transition all duration 300`}>
+                            <i className="fa-solid fa-list mr-3"></i>
+                            <span>Categories</span>
                         </Link>
                     </li>
                     <li >
@@ -42,7 +53,12 @@ const AdminSideMenu = () => {
         </div>
        
         <div className='mb-5 px-5 '>
-            <button className='hover:dark:text-amber-500 text-gray-600 dark:text-gray-300  font-thin p-2  duration-300 hover:bg-amber-100 hover:text-amber-500 transition all duration 300 w-full'>
+            <button onClick={()=>{
+
+                dispatch(adminLogout(""))
+                navigate("/admin/login")
+
+            }} className='hover:dark:text-amber-500 text-gray-600 dark:text-gray-300  font-thin p-2  duration-300 hover:bg-amber-100 hover:text-amber-500 transition all duration 300 w-full'>
                  <i className="fa-solid fa-right-from-bracket mr-3"></i>
                  <span className='text-lg'>Logout</span>
             </button>

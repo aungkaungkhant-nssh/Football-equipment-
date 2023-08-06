@@ -49,8 +49,8 @@ const BestSeller = () => {
                 
                 <SwiperSlide>
                         <div className='border border-gray-200 p-2 mr-4 group cursor-pointer '>
-                                <div className='inline-block relative'>
-                                    <img src={Add} alt="" />
+                                <div className='inline-block relative w-full'>
+                                    <img src={Add} alt=""  className='w-full'/>
                                     <img src={Add2} alt="" className='absolute z-20 top-0 left-0 opacity-0 group-hover:opacity-100 transition-all duration-500' />
                                     <div className='absolute z-50 absolute top-3 left-3  right-3'>
                                         <div className='flex justify-between items-center '>
@@ -102,8 +102,8 @@ const BestSeller = () => {
                              
                     <SwiperSlide>
                         <div className='border border-gray-200 p-2 mr-4 group cursor-pointer '>
-                                <div className='inline-block relative'>
-                                    <img src={Add} alt="" />
+                                <div className='inline-block relative w-full'>
+                                    <img src={Add} alt="" className='w-full' />
                                     <img src={Add2} alt="" className='absolute z-20 top-0 left-0 opacity-0 group-hover:opacity-100 transition-all duration-500' />
                                     <div className='absolute z-50 absolute top-3 left-3  right-3'>
                                         <div className='flex justify-between items-center '>
@@ -155,8 +155,8 @@ const BestSeller = () => {
                              
                     <SwiperSlide>
                         <div className='border border-gray-200 p-2 mr-4 group cursor-pointer '>
-                                <div className='inline-block relative'>
-                                    <img src={Add} alt="" />
+                                <div className='inline-block relative w-full'>
+                                    <img src={Add} alt=""  className='w-full'/>
                                     <img src={Add2} alt="" className='absolute z-20 top-0 left-0 opacity-0 group-hover:opacity-100 transition-all duration-500' />
                                     <div className='absolute z-50 absolute top-3 left-3  right-3'>
                                         <div className='flex justify-between items-center '>
@@ -208,8 +208,8 @@ const BestSeller = () => {
                              
                     <SwiperSlide>
                         <div className='border border-gray-200 p-2 mr-4 group cursor-pointer '>
-                                <div className='inline-block relative'>
-                                    <img src={Add} alt="" />
+                                <div className='inline-block relative w-full'>
+                                    <img src={Add} alt="" className='w-full' />
                                     <img src={Add2} alt="" className='absolute z-20 top-0 left-0 opacity-0 group-hover:opacity-100 transition-all duration-500' />
                                     <div className='absolute z-50 absolute top-3 left-3  right-3'>
                                         <div className='flex justify-between items-center '>

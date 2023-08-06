@@ -2,7 +2,6 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 const CheckOutState = () => {
     const location = useLocation();
-    console.log(location.pathname)
   return (
     <div className='flex  py-5  w-screen justify-center items-center'>
         <div className='text-center w-[20%]'>

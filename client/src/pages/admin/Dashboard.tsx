@@ -105,7 +105,7 @@ export const options = {
   };
 const Dashboard = () => {
   return (
-   <div className=''>
+   <div className='my-10'>
       <div className='flex justify-between'>
           <div className='flex items-center bg-white p-4 rounded shadow-sm w-[30%] cursor-pointer  transition all duration-300'>
               <div className='bg-amber-100 w-[70px] h-[70px] rounded-full flex justify-center items-center mr-4'>

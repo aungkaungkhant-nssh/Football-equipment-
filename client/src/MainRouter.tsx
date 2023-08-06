@@ -25,7 +25,15 @@ import AddProduct from './pages/admin/AddProduct'
 import AdminOrderLists from './pages/admin/Order'
 import AdminCustomerLists from './pages/admin/Customer'
 import AdminAddCustomer from './pages/admin/AddCustomer'
+import EditBrand from './pages/admin/EditBrand'
+import AdminCategoryLists from './pages/admin/Categories'
+import AddCategory from './pages/admin/AddCategory'
+import EditCategory from './pages/admin/EditCategory'
+import EditProduct from './pages/admin/EditProduct'
+import AdminLogin from './pages/admin/auth/AdminLogin'
+import ProtectedAdminAuthRoutes from './middleware/ProtectedAdminAuthRoutes'
 const MainRouter = () => {
+  
   return (
     <Routes>
             <Route  path="/" element={<Layout />}>
@@ -41,17 +49,28 @@ const MainRouter = () => {
                 <Route path='/order_confirm' element={<OrderConfirm />} />
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/order_details/:id" element={<OrderDetails />} />
+          
             </Route>
             <Route path='/order_complete' element={<OrderComplete />} />
 
-            <Route path='/admin/dashboard' element={<AdminLayout><Dashboard /></AdminLayout>} />
-            <Route path='/admin/brands' element={<AdminLayout><AdminBrandLists /></AdminLayout>} />
-            <Route  path="/admin/addbrand" element={<AdminLayout><AdminAddBrand /></AdminLayout>}/>
-            <Route path="/admin/products"  element={<AdminLayout><AdminProductLists /></AdminLayout>} />
-            <Route  path='/admin/addproduct' element={<AdminLayout><AddProduct /></AdminLayout>}/>
-            <Route path="/admin/orders" element={<AdminLayout><AdminOrderLists /></AdminLayout>} />
-            <Route path='/admin/customers' element={<AdminLayout><AdminCustomerLists /></AdminLayout>} />
-            <Route path='/admin/addcustomer' element={<AdminLayout><AdminAddCustomer /></AdminLayout>} />
+
+            {/* Admin Route */}
+            <Route path = '/admin/login' element={<AdminLogin />} />
+            <Route element={<ProtectedAdminAuthRoutes><AdminLayout /></ProtectedAdminAuthRoutes>}>
+                  <Route path='/admin/dashboard' element={<Dashboard />} />
+                  <Route path ='/admin/brand/:id' element = {<EditBrand />} />
+                  <Route path='/admin/brands' element={<AdminBrandLists />} />
+                  <Route path="/admin/categories" element={<AdminCategoryLists />}  />
+                  <Route path="/admin/addCategory" element={<AddCategory />} />
+                  <Route path ='/admin/categories/:id' element = {<EditCategory />} />
+                  <Route  path="/admin/addbrand" element={<AdminAddBrand />}/>
+                  <Route path="/admin/products"  element={<AdminProductLists />} />
+                  <Route  path='/admin/addproduct' element={<AddProduct />}/>
+                  <Route path='/admin/products/:id' element={<EditProduct /> }/>
+                  <Route path="/admin/orders" element={<AdminOrderLists />} />
+                  <Route path='/admin/customers' element={<AdminCustomerLists />} />
+                  <Route path='/admin/addcustomer' element={<AdminAddCustomer />} />
+            </Route>
     </Routes>
   )
 }

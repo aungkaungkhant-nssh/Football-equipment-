@@ -5,5 +5,6 @@ export default cleanEnv(process.env,{
     PORT:num({default:8000}),
     DB_USER:str({default:"root"}),
     DB_PASSWORD : str({default:"root"}),
-    DB_DEFAULT_DATABASE :str({default:"footballequipment"})
+    DB_DEFAULT_DATABASE :str({default:"footballequipment"}),
+    JWT_KEY:str({default:"nansusanhtike@107"})
 })

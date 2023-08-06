@@ -8,9 +8,11 @@ import  Rider from '../assets/images/rider.jpg'
 const ChooseBrand = () => {
   return (
     <section className='md:w-10/12 md:mx-auto px-4' style={{marginBottom:"80px"}}>
-        <div className='flex items-center'>
-            <h3 className='text-xl tracking-wider uppercase font-thin   w-1/2 md:w-1/5'>Choose Brands</h3>
-            <div className='bg-gray-300 h-0.5 w-1/2 md:w-4/5'></div>
+        <div className=' mb-6 w-full flex items-center justify-between'>
+            <h3 className='text-xl tracking-wider uppercase font-thin '>Choose Brand</h3>
+            <div className='bg-gray-300 h-0.5 basis-5/12 md:basis-7/12 lg:basis-8/12 xl:basis-9/12'></div>
+        
+          
         </div>
         <div className='mt-5'>
             <div className='px-4 border-b-2 inline-block py-2  mb-3'>

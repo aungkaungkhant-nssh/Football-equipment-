@@ -25,3 +25,6 @@
  .swiper-button-next, .swiper-button-prev {
   text-rendering: auto;
 }
+.dataTables_wrapper .rdt_TableCell{
+  font-size:225px;
+}
