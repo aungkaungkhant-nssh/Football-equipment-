@@ -1,17 +1,18 @@
-import React, { useEffect, useState,useMemo, ChangeEvent, FormEvent } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useProduct from '../../hook/useProduct'
 import { AppDispatch } from '../../app/store'
 import { useDispatch } from 'react-redux'
-import { destroyProduct, fetchLatestProducts, resetProduct, setSelectedProductRows,deleteSelectedItems, filteredByCategory, setDisplayItems, filteredByBrand, setCurrentPage, lastAdded} from '../../features/products/productSlice'
-import Loading from '../../components/Loading'
-import { toast } from 'react-toastify'
+import { destroyProduct,  resetProduct,  filteredByCategory, setDisplayItems, filteredByBrand, setCurrentPage, lastAdded, fetchLatestProductsByAdmin} from '../../features/products/productSlice'
+import toast from 'react-hot-toast'
 import useCategory from '../../hook/useCategory'
 import { fetchLatestCategories } from '../../features/categories/categorySlice'
 import ReactPaginate from 'react-paginate'
 import { fetchLatestBrands } from '../../features/brands/brandSlice'
 import useBrand from '../../hook/useBrand'
 import Tooltip from '../../components/Tooltip/Tooltip'
+import AnimatePlus from '../../components/Loading/AnimatePlus'
+
 const Products = () => {
    const {products,loading,success,pageCount,limit,displayItems,currentPage} = useProduct();
    const {categories} = useCategory();
@@ -22,7 +23,7 @@ const Products = () => {
     const [moreButton,setMoreButton] = useState<string | undefined>("")
 
     useEffect(()=>{
-            dispatch(fetchLatestProducts())
+            dispatch(fetchLatestProductsByAdmin(''))
             dispatch(fetchLatestCategories())
             dispatch(fetchLatestBrands())
     },[navigate]);
@@ -34,28 +35,24 @@ const Products = () => {
     },[currentPage,products])
    useEffect(()=>{
     if(success){    
-        toast.success('Delete Product success', {
-            position: toast.POSITION.TOP_RIGHT
-        });
+        toast.success('Delete Product success');
         dispatch(resetProduct(""))
         navigate("/admin/products")
     }
-   
    },[products])
-  
-  
+   console.log(products)
   return (
     <div className='my-10'>
         {/* header */}
-        <div className=' bg-white  p-5  rounded shadow' >
+        <div className='bg-white dark:bg-gray-900  p-5  rounded shadow' >
             <div className='px-4'>
                 <div className='flex justify-between items-center'>
-                    <h3 className='text-xl font-bold'>Product Lists</h3>
+                    <h3 className='text-xl font-bold dark:text-gray-100'>Product Lists</h3>
                     <div>
                          <input type="text" value={searchName} onChange={(e)=>{
                             setSearchName(e.target.value)
                             const filtered = products.filter((p)=>p.name.toLowerCase().includes(e.target.value.toLowerCase()))
-                            setDisplayItems(filtered.slice(0,0+limit))
+                            dispatch(setDisplayItems(filtered.slice(0,0+limit)))
                             dispatch(setCurrentPage(0))
                          }} placeholder='search' className='border border-gray-300 px-3 py-2 rounded text-lg focus:outline-amber-500' />
                     </div>
@@ -95,43 +92,45 @@ const Products = () => {
 
         </div>
         {/* product lists */}
-        <div className='bg-white p-5 rounded shadow mt-1'>
+        <div className='bg-white dark:bg-gray-900 p-5 rounded shadow mt-1'>
             <div className='flex flex-wrap justify-center'>
                 {
                     loading ? 
-                    <Loading bgColor='bg-amber-500' />
+                    <AnimatePlus bgColor='bg-amber-500' />
                     :displayItems.length===0 ? 
                     <span>Not products not found</span>
                     :displayItems.map((p)=>(
                         (
-                            <div className='border border-gray-300 w-[20%] m-2 cursor-pointer rounded-lg relative' key={p._id}>
-                                <img src={p.images[0]} alt="" className='w-[100%] h-[220px] mb-2' />
+                            <div className='border border-gray-300 dark:border-gray-500 w-[22%] m-2 cursor-pointer rounded-lg relative' key={p._id}>
+                                <img src={p.images[0].imageUrl} alt="" className='w-[100%] h-[250px] mb-2' />
                                 <div className='mt-4 px-3 mb-2'>
-                                    <div className='flex justify-between mb-2'>
-                                        <p className='text-lg font-bold'>{p.name}</p>
-                                        <p className='text-lg text-amber-500 font-bold'>{p.price} KS</p>
+                                    <div className='flex justify-between mb-2 w-[100%]'>
+                                        <p className='text-base font-bold dark:text-gray-100 w-[50%]'>{p.name}</p>
+                                        <p className='text-base text-amber-500 font-bold'>{p.price} KS</p>
                                     </div>
-                                    <p className='text-gray-400 font-thin my-3'>
-                                        10000 Sold
+                                    <p className='text-gray-400 font-thin my-3 text-sm'>
+                                        {p.sold} Sold
                                     </p>
                                     
-                                    <p className='text-gray-400 my-3'>
-                                        Availables Sizes : <span className='font-bold text-gray-900'>{p.sizes.map((s,i)=>p.sizes.length-1=== i ? s : `${s},`)}</span>
+                                    <p className='text-gray-400 my-3 text-base'>
+                                        Availables Sizes : <span className='font-bold text-gray-900 uppercase dark:text-gray-100'>{p.sizes.map((s,i)=>p.sizes.length-1=== i ? s : `${s},`)}</span>
                                     </p>
-                                    <p className='text-gray-400 my-3 flex items-center'>
+                                    {/* <p className='text-gray-400 my-3 flex items-center'>
                                         <span className='mr-1'>Availables Colors : </span>  {
-                                        p.colors.map((c,i)=>(
-                                            <span className={`mr-1 w-[15px] h-[15px] ${c} rounded flex justify-center items-center cursor-pointer`}></span>
+                                        p.colors.map((c:string,i)=>(
+                                            <span key={i} className={`mr-1 w-[15px] h-[15px] rounded flex justify-center items-center cursor-pointer`} style={{backgroundColor:`${c}`}}></span>
                                         ))
                                         }
-                                    </p>
+                                    </p> */}
                                     <div className='flex justify-between mb-3 items-center'>
                                         <div className='bg-amber-500 rounded-full px-3 py-1 text-white'>
                                             <i className="fa-solid fa-star mr-2"></i>
-                                            <span className=''>4.5</span>
+                                            <span className=''>
+                                                {p.rating || 0}
+                                            </span>
                                         </div>
                                         <div>
-                                            <p className='text-gray-400'>Stock : <span className='font-bold text-gray-900'>{p.stock}</span></p>
+                                            <p className='text-gray-400'>Stock : <span className='font-bold text-gray-900 dark:text-gray-100'>{p.stock}</span></p>
                                         </div>
                                     </div>
                                     <button onClick={()=>{
@@ -142,6 +141,7 @@ const Products = () => {
                                     </button>
                                     {
                                         moreButton=== p._id && (
+                                            
                                            <div className='bg-white absolute top-10 right-5 w-[120px] px-3 py-2 rounded-md'>
                                                 <button className='block my-2 text-base group'
                                                     onClick={()=>{
@@ -158,6 +158,7 @@ const Products = () => {
                                                     const deleteSure:boolean =confirm("Are you Sure want to delete?")
                                                     if(deleteSure){
                                                         dispatch(destroyProduct(p._id))
+                                                   
                                                     }
                                                     }}
                                                 >
@@ -171,24 +172,7 @@ const Products = () => {
                                         
                                     }
                                  
-                                    {/* <div className='px-4 flex justify-between mb-3'>
-                                        <button className='mr-3 border group border-gray-300 rounded text-center px-2 py-1  hover:bg-amber-400 hover:border-amber-400 mr-2   transition all duration-500'
-                                           
-                                            <i className="fa-regular fa-pen-to-square  transition all duration-500"></i>
-                                        </button>
-                                        <button 
-                                            className='border group border-gray-300 rounded text-center px-2 py-1  hover:bg-red-400  transition all duration-500'
-                                            onClick={()=>{
-                                            const deleteSure:boolean =confirm("Are you Sure want to delete?")
-                                            if(deleteSure){
-                                                dispatch(destroyProduct(p._id))
-                                            }
                                     
-                                            }}
-                                        >
-                                            <i className="fa-regular fa-trash-can text-gray-500 text-xl cursor-pointer group-hover:text-white  transition all duration-500"></i>
-                                        </button>
-                                    </div>  */}
                                 </div>
                             
                             </div>
@@ -216,8 +200,8 @@ const Products = () => {
                 pageRangeDisplayed={3}
                 pageCount={pageCount}
                 containerClassName="flex items-center justify-center mt-8 mb-4"
-                pageClassName="block border- border-solid border-lightGray hover:bg-lightGray w-10 h-10 flex items-center justify-center rounded-md mr-4"
-                activeClassName="bg-amber-100 text-amber-500"
+                pageClassName="dark:text-amber-500 text-amber-500  block border- border-solid border-lightGray hover:bg-lightGray w-10 h-10 flex items-center justify-center rounded-md mr-4"
+                activeClassName="bg-amber-100 text-amber-500 dark:text-gray-9000 "
         />
         </div>
     </div>

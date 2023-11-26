@@ -2,10 +2,18 @@ import {Schema,model,InferSchemaType} from 'mongoose'
 import jwt from 'jsonwebtoken'
 import env from '../util/validateEnv'
 
-interface ICustomer{
+export interface ICustomer{
+    _id?:string,
     name:string,
     email:string,
-    password:string
+    password:string,
+    provider:boolean,
+    oAuthProvider:{
+        provider:string,
+        providerId:string,
+    }
+    resetToken?:string,
+    resetTokenExpiry?:Date
 }
 export interface CustomerDocument extends ICustomer{
     generateToken:()=>Promise<void>
@@ -21,7 +29,20 @@ const customerSchema = new Schema<ICustomer>({
     },
     password:{
         type:String,
-        required:true
+    },
+    provider:{
+        type:Boolean,
+        default:false,
+    },
+    oAuthProvider:{
+        provider:String,
+        providerId:String,
+    },
+    resetToken:{
+        type:String
+    },
+    resetTokenExpiry:{
+        type:Date
     }
 })
 

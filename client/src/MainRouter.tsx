@@ -3,10 +3,9 @@ import { Routes,Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/user/Home'
 import ProductDetails from './pages/user/ProductDetails'
-import Products from './pages/user/Products'
+import ProductLists from './pages/user/Products'
 import Carts from './pages/user/Carts'
 import Favorite from './pages/user/Favorite'
-import CompareProducts from './pages/user/CompareProducts'
 import Login from './pages/user/Login'
 import Register from './pages/user/Register'
 import DeliveryAndPayment from './pages/user/DeliveryAndPayment'
@@ -16,12 +15,13 @@ import Orders from './pages/user/Orders'
 import OrderDetails from './pages/user/OrderDetails'
 import AdminLayout from './components/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
+import ForgotPassword from './pages/user/ForgotPassword'
 
 
 import AdminBrandLists from './pages/admin/Brands'
 import AdminAddBrand from './pages/admin/AddBrand'
 import AdminProductLists from './pages/admin/Products'
-import AddProduct from './pages/admin/AddProduct'
+import AdminAddProduct from './pages/admin/AddProduct'
 import AdminOrderLists from './pages/admin/Order'
 import AdminCustomerLists from './pages/admin/Customer'
 import AdminAddCustomer from './pages/admin/AddCustomer'
@@ -32,6 +32,10 @@ import EditCategory from './pages/admin/EditCategory'
 import EditProduct from './pages/admin/EditProduct'
 import AdminLogin from './pages/admin/auth/AdminLogin'
 import ProtectedAdminAuthRoutes from './middleware/ProtectedAdminAuthRoutes'
+import ProtectedUserAuthRoutes from './middleware/ProtectedUserAuthRoutes'
+import MyDetails from './pages/user/MyDetails'
+import Contact from './pages/user/Contact'
+import ResetPasswort from './pages/user/ResetPasswort'
 const MainRouter = () => {
   
   return (
@@ -39,19 +43,22 @@ const MainRouter = () => {
             <Route  path="/" element={<Layout />}>
                 <Route index element={<Home />}/>
                 <Route path='/product_details/:id' element={<ProductDetails />} />
-                <Route path='/products' element={<Products />} />
+                <Route path='/products' element={<ProductLists />} />
                 <Route path="/carts" element={<Carts />} />
                 <Route path='/favorite' element={<Favorite />} />
-                <Route path="/compare_products" element={<CompareProducts />} />
                 <Route path='/login' element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/delivery_payment" element={<DeliveryAndPayment />} />
-                <Route path='/order_confirm' element={<OrderConfirm />} />
-                <Route path="/orders" element={<Orders />} />
+                <Route path="/delivery_payment" element={<ProtectedUserAuthRoutes><DeliveryAndPayment /></ProtectedUserAuthRoutes>} />
+        
+                <Route path="/orders" element={<ProtectedUserAuthRoutes><Orders /></ProtectedUserAuthRoutes> } />
                 <Route path="/order_details/:id" element={<OrderDetails />} />
-          
+                <Route path='/order_complete' element={<OrderComplete />} />
+                <Route path='/my_details' element={<ProtectedUserAuthRoutes><MyDetails /></ProtectedUserAuthRoutes> } />
+                <Route path="/contact" element={<Contact />} />
+                <Route path='/forgotpassword' element={<ForgotPassword />} />
+                <Route path="resetPassword/:token" element={<ResetPasswort />} />
             </Route>
-            <Route path='/order_complete' element={<OrderComplete />} />
+      
 
 
             {/* Admin Route */}
@@ -65,7 +72,7 @@ const MainRouter = () => {
                   <Route path ='/admin/categories/:id' element = {<EditCategory />} />
                   <Route  path="/admin/addbrand" element={<AdminAddBrand />}/>
                   <Route path="/admin/products"  element={<AdminProductLists />} />
-                  <Route  path='/admin/addproduct' element={<AddProduct />}/>
+                  <Route  path='/admin/addproduct' element={<AdminAddProduct />}/>
                   <Route path='/admin/products/:id' element={<EditProduct /> }/>
                   <Route path="/admin/orders" element={<AdminOrderLists />} />
                   <Route path='/admin/customers' element={<AdminCustomerLists />} />

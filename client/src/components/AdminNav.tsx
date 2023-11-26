@@ -1,14 +1,15 @@
 import React from 'react'
 
 import { useAppDispatch, useAppSelector } from '../app/hook'
-import useDarkSide from '../hook/useDarkSide'
+import useDarkSide from '../hook/useUi'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../app/store'
 import { setTheme } from '../features/ui/uiSlice'
 import { useLocation,useNavigate } from 'react-router-dom'
+import useUi from '../hook/useUi'
 
 const AdminNav = () => {
-    const [colorTheme] =  useDarkSide()
+    const {colorTheme} =  useUi()
     const dispatch:AppDispatch = useDispatch()
     const location = useLocation();
     const navigate = useNavigate();

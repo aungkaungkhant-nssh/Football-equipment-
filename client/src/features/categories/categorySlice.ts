@@ -117,7 +117,7 @@ export const categorySlice = createSlice({
 })
 
 export const addCategory = createAsyncThunk("categories/addCategory",async(data:CategoryType,{getState})=>{
-        const {adminAuth:{admin}} = getState() as RootState;
+        const {auth:{admin}} = getState() as RootState;
         return await categoryService.addCategory(data,admin?.token)
 })
 export const fetchLatestCategories = createAsyncThunk("categories/fetchLatestCategories",async(data)=>{
@@ -128,11 +128,11 @@ export const fetchCategory = createAsyncThunk("brands/fetchBrand",async(id:strin
     return await categoryService.fetchCategory(id)
 })
 export const updateCategory = createAsyncThunk("categories/updateCategory",async(data:CategoryType,{getState})=>{
-    const {adminAuth:{admin}} = getState() as RootState;
+    const {auth:{admin}} = getState() as RootState;
     return await categoryService.updateCategory(data,admin?.token)
 })
 export const deleteCategory= createAsyncThunk("categories/deleteCategory",async(id:unknown,{getState})=>{
-    const {adminAuth:{admin}} = getState() as RootState;
+    const {auth:{admin}} = getState() as RootState;
     if(typeof id==="string"){
         return categoryService.deleteCategory(id,admin?.token)
     }

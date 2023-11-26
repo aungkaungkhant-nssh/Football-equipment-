@@ -4,11 +4,15 @@ import { Link,useNavigate } from 'react-router-dom'
 import { CustomerType, deleteCustomer, deleteSelectedItems, fetchLatestCustomers, resetCustomer, setSelectedCustomerRows } from '../../features/customers/customerSlice';
 import { AppDispatch } from '../../app/store';
 import useCustomer from '../../hook/useCustomer';
-import Loading from '../../components/Loading';
 import SelectedRowsItemDelete from '../../components/SelectedRowsItemDelete';
 import DataTable from 'react-data-table-component';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import Tooltip from '../../components/Tooltip/Tooltip';
+import AnimatePlus from '../../components/Loading/AnimatePlus';
+import tableTheme from '../../helper/tableTheme';
+import useDarkSide from '../../hook/useUi';
+
+  
 
 const Customer = () => {
     const navigate = useNavigate();
@@ -16,6 +20,8 @@ const Customer = () => {
     const {customers,loading,selectedCustomerRows,success} = useCustomer();
     const [data,setData] = useState(customers);
     const [searchName,setSearchName] = useState("");
+    const {theme} =  useDarkSide()
+    tableTheme(theme)
     useEffect(()=>{
         dispatch(fetchLatestCustomers())
     },[navigate])
@@ -25,9 +31,7 @@ const Customer = () => {
      
     useEffect(()=>{
         if(success){
-            toast.success('Delete Brand Success', {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.success('Delete Customer Success');
             dispatch(resetCustomer(""))
             navigate("/admin/customers")
         }
@@ -68,21 +72,19 @@ const Customer = () => {
     const subHeaderComponentMemo:any =useMemo (()=>{
         return (
             <>
-                <div className='w-[100%] flex justify-between items-center mb-5 border border-white border-b-gray-300 pb-5' style={{padding:"0px !important"}}>
+                <div className='w-[100%] flex justify-between items-center mb-5   pb-5 border border-transparent  dark:border-b-gray-500 border-b-gray-300' style={{padding:"0px !important"}}>
                     <div className='flex justify-between items-center  px-4'>
-                        <h3 className='text-xl font-bold'>Customer Lists</h3>
+                        <h3 className='text-xl font-bold dark:text-gray-100'>Customer Lists</h3>
                     </div>
                     <div className="border broder-gray-100 rounded py-2 px-4 rounded-full flex items-center text-gray-500 font-thin ">
                         <i className="fa-solid fa-magnifying-glass mr-3  "></i>
-                        <input type="text" placeholder='Search...'  className='focus:outline-none' value={searchName} onChange={(e)=>setSearchName(e.target.value)}/>
+                        <input type="text" placeholder='Search...'  className='focus:outline-none bg-transparent' value={searchName} onChange={(e)=>setSearchName(e.target.value)}/>
                     </div> 
                     <Tooltip position='top' tooltipsText='Add customer'>
                         <button onClick={()=>navigate("/admin/addCustomer" )}  className='bg-amber-100 shadow-lg rounded-full px-3 py-2 text-amber-500 hover:bg-amber-500 hover:text-white transition duration-300'>
                                     <i className="fa-solid fa-circle-plus text-2xl"></i>
                         </button>
                     </Tooltip>
-                 
-                
                 </div>
                 
             </>
@@ -90,14 +92,17 @@ const Customer = () => {
               
         )
     },[searchName])
+    useMemo(()=>{
+        return setData(customers.filter((b)=>b.name && b.name.toLowerCase().includes(searchName.toLowerCase()) ))
+    },[searchName]) 
   return (
     <div className='my-10'>
-            <div className='bg-white p-5 rounded shadow'>
+            <div className='bg-white dark:bg-gray-900 p-5 rounded shadow'>
                 
                 <div>
                 {
                     loading ? (
-                        <Loading bgColor='bg-amber-500' />
+                        <AnimatePlus bgColor='bg-amber-500' />
                     )
                     :  
                    (
@@ -108,7 +113,7 @@ const Customer = () => {
                                         selectedRows={selectedCustomerRows}
                                         setSelectedRows={()=>dispatch(setSelectedCustomerRows([]))}
                                         deleteSelected={()=>{
-                                            console.log(selectedCustomerRows.map((s:CustomerType)=>s._id))
+
                                        
                                            dispatch(deleteSelectedItems(selectedCustomerRows.map((s:CustomerType)=>s._id)))
                                            dispatch(setSelectedCustomerRows([]))
@@ -126,6 +131,7 @@ const Customer = () => {
                                 pagination
                                 columns={columns}
                                 data={data}
+                                theme="solarized"
                                 onSelectedRowsChange={({selectedRows})=>{
                                    
                                    dispatch(setSelectedCustomerRows(selectedRows))
@@ -134,8 +140,9 @@ const Customer = () => {
                                     {
                                         headCells:{
                                             style:{
-                                                fontSize:"16px",
-                                                color:"#020617"
+                                                fontSize:"17px",
+                                                color:"#71717a",
+                                                fontWeight:"bold"
                                             }
                                         },
                                         cells:{
@@ -144,7 +151,8 @@ const Customer = () => {
                                                 padding:"15px",
                                                 color:"#71717a"
                                             }
-                                        }
+                                        },
+                                        
                                     }}
                                 
                             />

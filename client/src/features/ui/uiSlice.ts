@@ -3,11 +3,17 @@ import type { RootState } from "../../app/store";
 
 
 interface uiState {
-    theme: string 
+    theme: string ,
+    mobileSideNav:boolean,
+    sortSideNav:boolean,
+    refineSideNav:boolean,
 }
 
 const initialState :uiState = {
-    theme:localStorage.theme
+    theme:localStorage.theme,
+    mobileSideNav:false,
+    sortSideNav:false,
+    refineSideNav:false
 }
 
 export const uiSlice = createSlice({
@@ -24,9 +30,18 @@ export const uiSlice = createSlice({
         },
         setTheme:(state,action:PayloadAction<string | any>)=>{
             state.theme = action.payload
+        },
+        setMobileSideNav:(state,action:PayloadAction<string>)=>{
+            state.mobileSideNav = !state.mobileSideNav
+        },
+        setSortSideNav:(state,action:PayloadAction<string>)=>{
+            state.sortSideNav = !state.sortSideNav
+        },
+        setRefineSideNav:(state,action)=>{
+            state.refineSideNav = !state.refineSideNav
         }
     }
   })
 
-export const {toggleMode,setTheme} = uiSlice.actions;
+export const {toggleMode,setTheme,setMobileSideNav,setSortSideNav,setRefineSideNav} = uiSlice.actions;
 export default uiSlice.reducer

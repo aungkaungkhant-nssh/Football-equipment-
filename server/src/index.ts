@@ -1,6 +1,7 @@
+import env from './util/validateEnv'
 import app from './app'
 import mongoose from 'mongoose'
-import env from './util/validateEnv'
+
 
 const port  = env.PORT
 

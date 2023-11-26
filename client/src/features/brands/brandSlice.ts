@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice ,PayloadAction} from "@reduxjs/toolkit";
 import brandService from "./brandService";
 import { RootState } from "../../app/store";
+import { ImageType } from "../products/productSlice";
+import toast from "react-hot-toast";
 
 export type BrandType = {
     _id?:string,
     name:string,
-    logo:string
+    logo:ImageType
 }
 
 type BrandInitType = {
@@ -69,7 +71,9 @@ export const brandSlice = createSlice({
         .addCase(addBrand.fulfilled,(state,action)=>{
             state.loading = false
             if("errors" in action.payload){
-                state.errorMessages = action.payload.errors
+                state.errorMessages = action.payload.errors;
+            }else if ("errMessage" in action.payload){
+                toast.error(action.payload.errMessage)
             }else{
                 state.brands = [...state.brands,action.payload]
                 
@@ -83,7 +87,9 @@ export const brandSlice = createSlice({
         .addCase(updateBrand.fulfilled,(state,action)=>{
             state.loading = false;
             if("errors" in action.payload){
-                state.errorMessages = action.payload.errors
+                state.errorMessages = action.payload.errors;
+            }else if ("errMessage" in action.payload){
+                toast.error(action.payload.errMessage)
             }else{
                 state.brands = state.brands.map((b)=>{
                     if(b._id === action.payload._id){
@@ -118,7 +124,7 @@ export const brandSlice = createSlice({
 })
 
 export const addBrand = createAsyncThunk("brands/addBrand",async(data:BrandType,{getState})=>{
-        const  {adminAuth:{admin}} = getState() as RootState;
+        const  {auth:{admin}} = getState() as RootState;
         return await brandService.addBrand(data,admin?.token)
 })
 export const fetchLatestBrands = createAsyncThunk("brands/fetchLatestBrands",async(data,{getState})=>{
@@ -129,18 +135,18 @@ export const fetchBrand = createAsyncThunk("brands/fetchBrand",async(id:string)=
     return await brandService.fetchBrand(id)
 })
 export const updateBrand = createAsyncThunk("brands/updateBrand",async(data:BrandType,{getState})=>{
-    const {adminAuth:{admin}} = getState() as RootState;
+    const {auth:{admin}} = getState() as RootState;
     return brandService.updateBrand(data,admin?.token)
 })
 export const deleteBrand= createAsyncThunk("brands/deleteBrand",async(id:unknown,{getState})=>{
-    const {adminAuth:{admin}} = getState() as RootState;
+    const {auth:{admin}} = getState() as RootState;
     if(typeof id==="string"){
         return brandService.deleteBrand(id,admin?.token)
     }
  
 })
 export const deleteSelectedItems =createAsyncThunk ("brands/deleteSelectedItems",async(data:unknown,{getState})=>{
-    const {adminAuth:{admin}} = getState() as RootState;
+    const {auth:{admin}} = getState() as RootState;
     if(Array.isArray(data)){
         return brandService.selectedBrandsDelete(data,admin?.token)
     }

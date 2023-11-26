@@ -5,19 +5,28 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../app/store'
 import { OrderType, deleteOrder, deleteSelectedItems, fetchLatestOrders, resetOrder, setSelectedOrderRows } from '../../features/orders/orderSlice'
 import useOrder from '../../hook/useOrder'
-import Loading from '../../components/Loading'
 import SelectedRowsItemDelete from '../../components/SelectedRowsItemDelete'
 import DataTable from 'react-data-table-component'
-import { toast } from 'react-toastify'
-import { resetProduct } from '../../features/products/productSlice'
+import toast from 'react-hot-toast'
+
 import Tooltip from '../../components/Tooltip/Tooltip'
+import AnimatePlus from '../../components/Loading/AnimatePlus'
+import tableTheme from '../../helper/tableTheme'
+import useDarkSide from '../../hook/useUi'
+import OrderList from '../../components/OrderList'
+import OrderProduct from '../../components/OrderProduct'
 
 const Order = () => {
     const navigate = useNavigate()
     const dispatch:AppDispatch  = useDispatch()
     const [data,setData] = useState<OrderType []>([])
     const {orders,loading,selectedOrderRows,success} = useOrder() ;
-    const [searchName,setSearchName] = useState<string>("")
+    const [searchName,setSearchName] = useState<string>("");
+    const {theme} = useDarkSide();
+    const [modalOpen,setModalOpen] = useState(false);
+    const [order,setOrder] = useState<OrderType>();
+
+    tableTheme(theme)
     useEffect(()=>{
         dispatch(fetchLatestOrders())
     },[navigate])
@@ -27,9 +36,7 @@ const Order = () => {
       
     useEffect(()=>{
         if(success){
-            toast.success('Delete Order Success', {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.success('Delete Order Success');
             dispatch(resetOrder(""))
             navigate("/admin/orders")
         }
@@ -42,22 +49,27 @@ const Order = () => {
         },
         {
             name: 'Name',
-            selector:(row:any)=> row.customer[0].name,
+            selector:(row:any)=> row.name,
             sortable:true
         },
         {
             name: 'Phone',
-            selector:(row:any)=> row.phoneNumber,
+            selector:(row:any)=> row.phone,
             sortable:true
         },
         {
-            name: 'Address',
-            selector:(row:any)=> row.address,
+            name: 'City',
+            selector:(row:any)=> row.city,
+            sortable:true
+        },
+        {
+            name: 'Town',
+            selector:(row:any)=> row.town,
             sortable:true
         },
         {
             name: 'Total Amount',
-            selector:(row:any)=> row.totalAmount,
+            selector:(row:any)=> `${row.totalAmount} (MMK)`,
             sortable:true
         },
         {
@@ -66,49 +78,63 @@ const Order = () => {
             sortable:true
         },
         {
-            name:"Status",
-            cell:(row:any)=><span className={`${row.status === 1 ?  'bg-green-200' : 'bg-red-200'} rounded-full px-3 py-2 ${row.status === 1 ?  'text-green-500' : 'text-red-500' } font-normal`}>{row.status===1 ? "ငွေရှင်းပြီး" : "ငွေမရှင်းရသေး"}</span>
-        },
-        {
             name: '',
             cell:(row:any)=>
-            <div className='relative tooltip-container'>
-                    <Tooltip position='top' tooltipsText='Delete Order'>
-                         <button 
-                            className='border  border-gray-300 rounded text-center px-2 py-1  hover:bg-red-400 hover:border-red-400 transition all duration-300 '
-                            onClick={()=>{
-                            const deleteSure:boolean =confirm("Are you Sure want to delete?")
-                            if(deleteSure){
-                                dispatch(deleteOrder(row._id))
-                            }
-                         }}>
-                             <i className="fa-regular fa-trash-can text-gray-500 text-lg cursor-pointer group-hover:text-white transition all duration-300 "></i>
-                        </button> 
-                    </Tooltip>
-                   
-            </div>
+            <>
+                <div className='relative tooltip-container'>
+                        <Tooltip position='top' tooltipsText='Delete Order'>
+                            <button 
+                                className='border  border-gray-300 rounded text-center px-2 py-1  hover:bg-red-400 hover:border-red-400 transition all duration-300 '
+                                onClick={()=>{
+                                const deleteSure:boolean =confirm("Are you Sure want to delete?")
+                                if(deleteSure){
+                                    dispatch(deleteOrder(row._id))
+                                }
+                            }}>
+                                <i className="fa-regular fa-trash-can text-gray-500 text-lg cursor-pointer group-hover:text-white transition all duration-300 "></i>
+                            </button> 
+                        </Tooltip>
+                    
+                </div>
+                <div className='relative tooltip-container  ml-5'>
+                        <Tooltip position='top' tooltipsText='Order Products'>
+                            <button 
+                                className='border  border-gray-300 rounded text-center px-2 py-1  hover:bg-amber-400 hover:border-amber-400 transition all duration-300 '
+                                onClick={()=>{
+                                setModalOpen(true);
+                                setOrder(orders.find((order:OrderType)=> order._id === row._id))
+                           
+                            }}>
+                                <i className="fa-solid fa-circle-info text-gray-500 text-lg cursor-pointer group-hover:text-white transition all duration-300 "></i>
+                            </button> 
+                        </Tooltip>
+                    
+                </div>
+            </>
+           
         },
+        
     ];
     useMemo(()=>{
-        return setData(orders.filter((b)=>{
-          return  b.customer[0].name && b.customer[0].name.toLowerCase().includes(searchName.toLowerCase())
-            || b.phoneNumber && b.phoneNumber.toLowerCase().includes(searchName.toLowerCase())
-            || b.address && b.address.toLowerCase().includes(searchName.toLowerCase())
+        return setData(orders.filter((b:OrderType)=>{
+          return  b.name && b.name.toLowerCase().includes(searchName.toLowerCase())
+            || b.phone && b.phone.toLowerCase().includes(searchName.toLowerCase())
+            || b.city && b.city.toLowerCase().includes(searchName.toLowerCase())
         } ))
     },[searchName]) 
     console.log(orders) 
     const subHeaderComponentMemo:any =useMemo (()=>{
         return (
             <>
-                <div className='w-[100%] flex justify-between items-center mb-5 border border-white border-b-gray-300 pb-5' style={{padding:"0px !important"}}>
+                <div className='w-[100%] flex justify-between items-center mb-5  pb-5 border border-transparent  dark:border-b-gray-500 border-b-gray-300' style={{padding:"0px !important"}}>
                     <div className='flex justify-between items-center  px-4'>
-                        <h3 className='text-xl font-bold'>Order Lists</h3>
+                        <h3 className='text-xl font-bold dark:text-gray-100'>Order Lists</h3>
                     
                     
                     </div>
                     <div className="border broder-gray-100 rounded py-2 px-4 rounded-full flex items-center text-gray-500 font-thin ">
                     <i className="fa-solid fa-magnifying-glass mr-3  "></i>
-                    <input type="text" placeholder='Search...'  className='focus:outline-none' value={searchName} onChange={(e)=>setSearchName(e.target.value)}/>
+                    <input type="text" placeholder='Search...'  className='focus:outline-none bg-transparent' value={searchName} onChange={(e)=>setSearchName(e.target.value)}/>
                     </div> 
                  
                 
@@ -121,12 +147,11 @@ const Order = () => {
     },[searchName])
   return (
     <div className='my-10'>
-        <div className='bg-white p-5 rounded shadow'>
-            
+        <div className='bg-white p-5 rounded shadow dark:bg-gray-900'>
           <div>
           {
                     loading ? (
-                        <Loading bgColor='bg-amber-500' />
+                        <AnimatePlus bgColor='bg-amber-500' />
                     )
                     :  
                    (
@@ -157,12 +182,13 @@ const Order = () => {
                                    
                                    dispatch(setSelectedOrderRows(selectedRows))
                                 }}
+                                theme='solarized'
                                 customStyles={
                                 {
                                     headCells:{
                                         style:{
                                             fontSize:"16px",
-                                            color:"#020617"
+                                            color:"#71717a"
                                         }
                                     },
                                     cells:{
@@ -171,7 +197,8 @@ const Order = () => {
                                             padding:"15px",
                                             color:"#71717a"
                                         }
-                                    }
+                                    },
+                                    
                                 }}
                                 
                             />
@@ -180,6 +207,11 @@ const Order = () => {
                 }
             
           </div>
+           {
+                order && (
+                    <OrderProduct order={order} modalOpen={modalOpen} setModalOpen={setModalOpen} />
+                )
+           }     
          
         </div>
    

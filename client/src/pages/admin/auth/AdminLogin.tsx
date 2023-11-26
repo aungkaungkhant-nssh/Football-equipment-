@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import InputText from '../../../components/Form/InputText'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../app/store';
-import { adminLogin, resetAdminAuth } from '../../../features/adminAuth/authSlice';
-import useAdmin from '../../../hook/useAdmin';
+import { adminLogin, resetAdminAuth } from '../../../features/Auth/authSlice';
+import useAuth from '../../../hook/useAuth';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../../../components/Loading';
+import AnimatePlus from '../../../components/Loading/AnimatePlus';
 
 const AdminLogin = () => {
   const [email,setEmail] = useState<string>("");
   const [password,setPassword] = useState<string>("")
-  const {admin,loading,success,errormessages} = useAdmin();
+  const {admin,loading,success,errormessages} = useAuth();
   const dispatch:AppDispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(()=>{
@@ -42,7 +42,7 @@ const AdminLogin = () => {
                     <button className='mt-3 bg-amber-500  px-5 rounded-md py-4 shadow-lg  text-white transition all duration-300 w-full text-xl hover:bg-amber-600'>
                         {
                             loading ?
-                            <Loading bgColor='bg-amber-100' />
+                            <AnimatePlus bgColor='bg-amber-100' />
                             :(
                                 <>
                                     <span className='text-xl'>Sign In</span>

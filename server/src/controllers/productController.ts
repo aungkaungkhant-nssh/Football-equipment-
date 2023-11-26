@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 // @access  protected
 
 export const createProduct :RequestHandler = async(req,res)=>{
-    const {name,images,price,description,brand,category,sizes,colors,stock}= req.body
+    const {name,images,price,description,brand,category,sizes,stock,isNew}= req.body
     const errors = validationResult(req);
     if(!errors.isEmpty()) return res.status(422).json(errors)
     try{
@@ -21,8 +21,8 @@ export const createProduct :RequestHandler = async(req,res)=>{
             brand:brand[0]._id,
             category:category[0]._id,
             sizes,
-            colors,
-            stock:stock || 1
+            stock:stock || 1,
+            isNew:isNew || false
         })
         product = await product.save()
         res.status(201).json(product)
@@ -36,8 +36,22 @@ export const createProduct :RequestHandler = async(req,res)=>{
 // @access protected
 
 export const getProducts:RequestHandler = async(req,res)=>{
+   const {categoryId,brandId} = req.query
+    let  query={$match:{}}
+    if(categoryId || brandId ){
+        const matchQuery:any = {};
+        if(categoryId){
+            matchQuery.category = new mongoose.Types.ObjectId(categoryId.toString())
+        }
+       if(brandId){
+            matchQuery.brand = new mongoose.Types.ObjectId(brandId.toString())
+       }
+        
+      query.$match={...matchQuery}
+    }
     try{
         let products = await Product.aggregate([
+            query,
             {
                 $lookup:{
                     from:"categories",
@@ -54,6 +68,7 @@ export const getProducts:RequestHandler = async(req,res)=>{
                     as:"brand"
                 }
             },
+            
         ])
         res.status(200).json(products)
     }catch(err){
@@ -165,5 +180,29 @@ export const selectedProductDelete:RequestHandler =  async (req,res)=>{
 }
 
 
+// @desc createRreview
+// @route Post api/product/:id/remview
+// @access protected
+export const createReview :RequestHandler = async(req,res)=>{
+    const customer = res.locals.customer;
+    const {id} = req.params;
+    const {comment,rating} = req.body;
+
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) return res.status(422).json(errors)
+    try{
+        let  product = await Product.findById(id);
+        if(!product) return res.status(400).json("Product not found");
+        if(product.reviews.find((r)=>r.name === customer.name))return res.status(400).json("You already submitted review")
+        product.reviews.push({name:customer.name,comment,rating})
+        product.numReviews = product.reviews.length;
+        product.rating = product.reviews.reduce((a:any,c:any)=>c.rating+a,0)/product.reviews.length;
+        product = await product.save();
+        res.status(200).json(product);
+    }catch(err){
+        res.status(500).json("Something went wrong")
+    }
+}
 
 

@@ -5,12 +5,13 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../../app/store';
 import { BrandType, deleteBrand, deleteSelectedItems, fetchLatestBrands, resetBrand,setSelectedBrandRows } from '../../features/brands/brandSlice';
 import useBrand from '../../hook/useBrand';
-import Loading from '../../components/Loading';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom'
 import SelectedRowsItemDelete from '../../components/SelectedRowsItemDelete';
 import Tooltip from '../../components/Tooltip/Tooltip';
-
+import AnimatePlus from '../../components/Loading/AnimatePlus';
+import tableTheme from '../../helper/tableTheme';
+import useDarkSide from '../../hook/useUi';
 const Brands = () => {
     const dispatch:AppDispatch = useDispatch();
     const {brands,loading,success,selectedBrandRows} = useBrand();
@@ -18,7 +19,8 @@ const Brands = () => {
     const [data,setData] = useState(brands);
     const [searchName,setSearchName] = useState("")
     const navigate = useNavigate();
-
+    const {theme} = useDarkSide();
+    tableTheme(theme)
 
     useEffect(()=>{
             dispatch(fetchLatestBrands())
@@ -28,24 +30,20 @@ const Brands = () => {
         setData(brands)
     },[brands])
 
-  
     useEffect(()=>{
         if(success){
-            toast.success('Delete Brand Success', {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.success('Delete Brand Success');
             dispatch(resetBrand(""))
             navigate("/admin/brands")
         }
     },[brands])
 
- 
     const columns = [
         {
             name:"Logo",
             cell:(row:any)=>
                 <div>
-                    <img src={row.logo} alt="" className='w-[120px]' />
+                    <img src={row?.logo?.imageUrl} alt="" className='w-[120px]' />
                 </div>
         },
         {
@@ -91,15 +89,15 @@ const Brands = () => {
     const subHeaderComponentMemo:any =useMemo (()=>{
         return (
             <>
-                <div className='w-[100%] flex justify-between items-center mb-5 border border-white border-b-gray-300 pb-5' style={{padding:"0px !important"}}>
+                <div className='w-[100%] flex justify-between items-center mb-5  pb-5 border border-transparent  dark:border-b-gray-500 border-b-gray-300' style={{padding:"0px !important"}}>
                     <div className='flex justify-between items-center  px-4'>
-                        <h3 className='text-xl font-bold'>Brand Lists</h3>
+                        <h3 className='text-xl font-bold dark:text-gray-100'>Brand Lists</h3>
                     
                     
                     </div>
                     <div className="border broder-gray-100 rounded py-2 px-4 rounded-full flex items-center text-gray-500 font-thin ">
                         <i className="fa-solid fa-magnifying-glass mr-3  "></i>
-                        <input type="text" placeholder='Search...'  className='focus:outline-none' value={searchName} onChange={(e)=>setSearchName(e.target.value)}/>
+                        <input type="text" placeholder='Search...'  className='focus:outline-none bg-transparent' value={searchName} onChange={(e)=>setSearchName(e.target.value)}/>
                     </div> 
                     <Tooltip position='top' tooltipsText='Add Brand'>
                         <button onClick={()=>navigate("/admin/addbrand")}  className='bg-amber-100 shadow-lg rounded-full px-3 py-2 text-amber-500 hover:bg-amber-500 hover:text-white transition duration-300'>
@@ -117,12 +115,12 @@ const Brands = () => {
     },[searchName])
   return (
     <div className='my-10'>
-        <div className='bg-white p-5 rounded shadow'>
+        <div className='bg-white p-5 rounded shadow dark:bg-gray-900'>
          
             <div className=' px-4'>
                 {
                     loading ? (
-                        <Loading bgColor='bg-amber-500' />
+                        <AnimatePlus bgColor='bg-amber-500' />
                     )
                     :  
                    (
@@ -153,12 +151,13 @@ const Brands = () => {
                                    
                                    dispatch(setSelectedBrandRows(selectedRows))
                                 }}
+                                theme='solarized'
                                 customStyles={
                                     {
                                         headCells:{
                                             style:{
                                                 fontSize:"16px",
-                                                color:"#020617"
+                                                color:"#71717a"
                                             }
                                         },
                                         cells:{
@@ -167,7 +166,8 @@ const Brands = () => {
                                                 padding:"15px",
                                                 color:"#71717a"
                                             }
-                                        }
+                                        },
+                                        
                                     }}
                                 
                             />

@@ -23,7 +23,8 @@ const initialState : CustomerInitType = {
     customers:[],
     errorMessages:[],
     success:false,
-    selectedCustomerRows:[]
+    selectedCustomerRows:[],
+   
 }
 
 export const customerSlice= createSlice({
@@ -77,10 +78,11 @@ export const customerSlice= createSlice({
         })
         .addCase(deleteSelectedItems.fulfilled,(state,action)=>{
             state.loading = false;
-            console.log(action.payload)
             const customersId = new Set(action.payload.map((a:CustomerType)=>a._id))
             state.customers =  state.customers.filter((b)=> !customersId.has(b._id))
         })  
+
+        
     }
 })
 
@@ -88,19 +90,22 @@ export const addCustomer = createAsyncThunk("customers/addCustomer",async(data:C
 
     return await customerService.addCustomer(data)
 })
-export const fetchLatestCustomers =  createAsyncThunk("customers/fetchLatestCustomer",async()=>{
-    return await customerService.fetchLatestCustomers()
+
+export const fetchLatestCustomers =  createAsyncThunk("customers/fetchLatestCustomer",async(data,{getState})=>{
+    const {auth:{admin}} = getState() as RootState
+    return await customerService.fetchLatestCustomers(admin?.token)
 })
 export const deleteCustomer = createAsyncThunk("customers/deleteCustomer",async(id:string,{getState})=>{
-    const {adminAuth:{admin}} = getState() as RootState
+    const {auth:{admin}} = getState() as RootState
     return await customerService.deleteCustomer(id,admin?.token)
 })
 export const deleteSelectedItems =createAsyncThunk ("brands/deleteSelectedItems",async(data:unknown,{getState})=>{
-    const {adminAuth:{admin}} = getState() as RootState
+    const {auth:{admin}} = getState() as RootState
     if(Array.isArray(data)){
         return await customerService.selectedCustomersDelete(data,admin?.token)
     }
     
 })
+
 export const {resetCustomer,setSelectedCustomerRows} = customerSlice.actions;
 export default customerSlice.reducer

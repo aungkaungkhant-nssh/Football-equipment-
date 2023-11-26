@@ -14,6 +14,20 @@ const fetchLatestOrders = async(adminToken:string | undefined)=>{
         return err.response
     }
 }
+const fetchLatestOrdersByCustomerId = async(userToken:string | undefined)=>{
+    try{
+        const res = await Axios.get(`${API_URL}/customerId`,{
+            headers:{
+                Authorization:`Bearer ${userToken}`
+            }
+        })
+        return res.data;
+
+    }catch(err:any){
+        console.log("hello")
+        return err.response
+    }
+}
 const deleteOrder =async (id:string,adminToken:string | undefined )=>{
     try{
         const res = await Axios.delete(`${API_URL}/${id}`,{
@@ -41,7 +55,8 @@ const selectedOrdersDelete = async(data:string[],adminToken:string | undefined)=
 const orderService = {
     fetchLatestOrders,
     deleteOrder,
-    selectedOrdersDelete
+    selectedOrdersDelete,
+    fetchLatestOrdersByCustomerId
 }
 
 export default orderService

@@ -1,6 +1,7 @@
 import express from 'express'
-import { createProduct, getProducts,getProduct, destroyProduct, updateProduct, selectedProductDelete } from '../controllers/productController'
+import { createProduct, getProducts,getProduct, destroyProduct, updateProduct, selectedProductDelete, createReview } from '../controllers/productController'
 import { body } from 'express-validator'
+import { adminOnly, protect } from '../middleware/authHandler'
 const router = express.Router()
 
 function productValidations(){
@@ -30,21 +31,29 @@ function productValidations(){
         .notEmpty()
         .isArray({min:1})
         .withMessage("Size field is required"),
-    body("colors")
-        .notEmpty()
-        .isArray({min:1})
-        .withMessage("Color field is required")
+  
     ]
 }
 
 router.post("/",
-productValidations()
+productValidations(),
+adminOnly
 ,createProduct)
 router.get("/",getProducts)
 router.get("/:id",getProduct)
-router.delete("/:id",destroyProduct )
-router.post("/deleteSelectedItems",selectedProductDelete)
+router.delete("/:id",adminOnly,destroyProduct )
+router.post("/deleteSelectedItems",adminOnly,selectedProductDelete)
 router.put("/:id",
-productValidations()
+productValidations(),
+adminOnly
 ,updateProduct)
+
+router.post("/:id/reviews",protect,
+    body("comment")
+        .notEmpty()
+        .withMessage("Comment field is required"),
+    body("rating")
+        .notEmpty()
+        .withMessage("Rating field is required")
+,createReview)
 export default router

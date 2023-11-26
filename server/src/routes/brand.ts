@@ -10,21 +10,24 @@ router.post("/",
     body("name")
     .notEmpty()
     .withMessage("Name field is required"),
-    body("logo")
+    body("logo.public_id")
     .notEmpty()
-    .withMessage("Logo field is required")
+    .withMessage("Logo field is required"),
+    adminOnly
 ,createBrand);
 router.get("/",getBrands);
-router.post("/deleteSelectedItems",selectedBrandsDelete)
-router.delete("/:id",destroyBrand)
+router.post("/deleteSelectedItems",adminOnly,selectedBrandsDelete)
+router.delete("/:id",adminOnly,destroyBrand)
 router.get("/:id",getBrand);
 router.put("/:id",
+    adminOnly,
      body("name")
     .notEmpty()
     .withMessage("Name field is required"),
     body("logo")
     .notEmpty()
-    .withMessage("Logo field is required")
+    .withMessage("Logo field is required"),
+    adminOnly
 ,updateBrand)
 
 export default router

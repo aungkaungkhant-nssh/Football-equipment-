@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import env from '../util/validateEnv'
 import Admin from "../model/Admin";
+import Customer from "../model/Customer";
 
 type DecodedToken =  {
     "sub": string,
@@ -14,8 +15,9 @@ export const protect:RequestHandler = async(req,res,next)=>{
     const token = authHeader && authHeader.split(" ")[1]
     if(!token) return res.status(401).json("Unauthorized")
     try{
-        const customer = jwt.verify(token,env.JWT_KEY)
-        if(!customer) return res.status(401).json("Invalid Token")
+        const decoded = jwt.verify(token,env.JWT_KEY)
+        let customer = await Customer.findById((decoded as JwtPayload)._id);
+        if(!customer) return res.status(401).json("Invalid Token");
         res.locals.customer = customer;
         next()
     }catch(err){

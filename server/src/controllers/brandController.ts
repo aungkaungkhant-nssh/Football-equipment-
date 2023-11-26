@@ -66,10 +66,9 @@ export const updateBrand:RequestHandler = async(req,res)=>{
     const {id} = req.params
     const {name,logo} = req.body;
     const errors = validationResult(req)
-
     if(!errors.isEmpty()) return res.status(422).json(errors)
     try{
-        let brand = await Brand.findOneAndUpdate({_id:id} , logo ? {name,logo} : {name})    
+        let brand = await Brand.findOneAndUpdate({_id:id} , logo.public_id && logo.imageUrl  ? {name,logo} : {name})    
         brand = await Brand.findById(id);  
         res.status(200).json(brand)  
     }catch(err){

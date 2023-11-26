@@ -1,37 +1,38 @@
 import {RequestHandler} from "express";
 import Order from "../model/Order";
-
-export const createOrder:RequestHandler =async(req,res)=>{
-    const {phoneNumber,totalAmount,address} = req.body
-    try{
-        let order = new Order({
-            user:res.locals.customer._id,
-            address,
-            phoneNumber,
-            totalAmount,
-        })
-        order = await order.save();
-        res.status(201).json(order)
-    }catch(err){
-        
-        res.status(500).json("Something went wrong")
-    }
-}
+import env from '../util/validateEnv';
+const stripe = require("stripe")(env.STRIPE_SECRET_KEY);
+import { productPipeLines } from "../pipeline";
+import mongoose from "mongoose";
 
 export const getOrders:RequestHandler = async(req,res)=>{
     try{
         let orders = await Order.aggregate([
-            {
-                $lookup:{
-                    from:"customers",
-                    localField:"user",
-                    foreignField:"_id",
-                    as:"customer"
-                }
-            },
+           ...productPipeLines
         ]);
+        orders = orders.reverse()
         res.status(200).json(orders)
     }catch(err){
+        res.status(500).json("Something went wrong")
+    }
+}
+
+export const getOrdersByCustomerId :RequestHandler = async(req,res)=>{
+    try{
+        const customerId = res.locals.customer._id;
+      
+        let orders = await Order.aggregate([
+            {
+                $match:{
+                    customerId:new mongoose.Types.ObjectId(customerId)
+                }
+            },
+            ...productPipeLines
+        ])
+  
+        res.status(200).json(orders)
+    }catch(err){
+        console.log("hiteh")
         res.status(500).json("Something went wrong")
     }
 }

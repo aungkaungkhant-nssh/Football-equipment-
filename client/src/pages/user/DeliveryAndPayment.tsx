@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CheckOutState from '../../components/CheckOutState'
 import { useNavigate } from 'react-router-dom'
 import BreadCrumb from './BreadCrumb'
+import useAuth from '../../hook/useAuth'
+import {loadStripe} from '@stripe/stripe-js'
+import Axios from '../../Axios'
+import useCart from '../../hook/useCart'
 
 const DeliveryAndPayment = () => {
-  const navigate = useNavigate()
+  const {carts} = useCart();
+  const {user} = useAuth();
+  const navigate = useNavigate();
+
+
   return (
     <section>
         <div className='px-4'>
@@ -15,7 +23,7 @@ const DeliveryAndPayment = () => {
             ]}/>
         </div>
         <div>
-      
+            
           <CheckOutState />
           <div className='max-w-screen-lg  md:mx-auto mx-5 flex flex-col md:flex-row justify-center mt-10  border border-gray-200 shadow-inner '>
               {/* shipping and payment */}
@@ -75,14 +83,15 @@ const DeliveryAndPayment = () => {
                 </div>
                 <h3 className='my-5 font-bold text-base'>Payment Details</h3>
                 <div className='flex'>
-                    <div className='flex items-center mr-8'>
+                  <button role='link' className='bg-amber-500' >Payment</button>
+                    {/* <div className='flex items-center mr-8'>
                         <input type="radio" name="payment" className='border border-gray-800 focus:ring-red-200 bg-amber-500'/>
                         <label htmlFor="" className='ml-2 block text-gray-800 font-thin'>Cash on Delivery</label>
                     </div>
                     <div className='flex items-center'>
                         <input type="radio" name="payment" className='border border-gray-800 focus:ring-red-200 bg-amber-500'/>
                         <label htmlFor="" className='ml-2 block text-gray-800 font-thin'>Credit Card</label>
-                    </div>
+                    </div> */}
                 </div>
                 <button className='bg-gray-300 text-center py-2 px-3  rounded text-white w-full mt-6' onClick={()=>navigate("/order_confirm")}>Order Confirm</button>
               </div>
@@ -93,5 +102,6 @@ const DeliveryAndPayment = () => {
 
   )
 }
-
+// pk_test_51NhulAFtJsNegd4lYEUQFNeR1luPY9kiMXZs0xMkZBWtPYY90w44YFPpv8HQoubyn6Qz3K8qat9AaZ1wnQhOJS0P00H8dEyZOH
+// sk_test_51NhulAFtJsNegd4lgMeV7TOY9qmc26rOrgLBbc0pbKta8dSK9G4TLC5N1CxirPXHQwENkCnss2UgTB4wvIBjnlPs00bxZb7Aa0
 export default DeliveryAndPayment

@@ -1,0 +1,1 @@
+export const thousandSeparator = (price:number)=> price.toLocaleString('en-US');

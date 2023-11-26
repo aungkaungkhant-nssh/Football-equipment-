@@ -2,27 +2,46 @@ import mongoose,{Schema,InferSchemaType,model} from 'mongoose'
 
 
 const orderSchema = new Schema({
-    user:{
-        type:Schema.Types.ObjectId,
-        required:true,
-        ref:"User"
-    },
-    phoneNumber:{
-        type:String,
-        required:true
-    },
-    totalAmount:{
-        type:String,
-        required:true
-    },
-    address:{
-        type:String,
-        required:true
-    },
-    status:{
-        type:Number,
-        default:0
-    }
+   customerId:{
+      type:Schema.Types.ObjectId,ref:"Customer",
+      required:true
+   },
+   product:[
+      {
+         _id:{type:Schema.Types.ObjectId,ref:"Product"},
+         size:{type:String},
+         quantity:{type:Number}
+      }
+   ],
+   name:{
+    type:String
+   },
+   email:{
+    type:String,
+   },
+   phone:{
+      type:String
+   },
+   totalAmount:{
+    type:String,
+    required:true
+   },
+   city:{
+    type:String,
+    required:true
+   },
+
+   town:{
+    type:String,
+    required:true
+   },
+   postalCode:{
+    type:String,
+   }, 
+  
+},{
+   timestamps:true,
+   get: (time:any) => time.toDateString()
 })
 
 type Order =  InferSchemaType<typeof orderSchema>

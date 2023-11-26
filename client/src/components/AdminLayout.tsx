@@ -4,7 +4,7 @@ import AdminNav from './AdminNav'
 import AdminSideMenu from './AdminSideMenu'
 import useAdminAuthMiddleware from '../middleware/ProtectedAdminAuthRoutes'
 import { Outlet, useNavigate } from 'react-router-dom'
-import useAdmin from '../hook/useAdmin'
+import useAdmin from '../hook/useAuth'
 type ChildrenType = {children?:ReactElement  | ReactElement []}
 const AdminLayout = ({children}:ChildrenType) => {
  

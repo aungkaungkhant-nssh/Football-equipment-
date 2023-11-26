@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { Link,useLocation, useNavigate } from 'react-router-dom'
 import { AppDispatch } from '../app/store';
-import { adminLogout } from '../features/adminAuth/authSlice';
+import { adminLogout } from '../features/Auth/authSlice';
 const AdminSideMenu = () => {
     const location  = useLocation();
     const dispatch:AppDispatch = useDispatch();
@@ -13,7 +13,7 @@ const AdminSideMenu = () => {
             <div className='px-5 py-5' >
                 <ul>
                     <li>
-                        <Link to="/admin/dashboard"  className={`${location.pathname.includes("dashboard") ? "bg-amber-100 text-amber-500" : "text-gray-600"}  px-3 py-2 rounded   cursor-pointer font-thin my-6 block text-lg`}>
+                        <Link to="/admin/dashboard"  className={`${location.pathname.includes("dashboard") ? "bg-amber-100 text-amber-500" : "text-gray-600"}  px-3 py-2 rounded   cursor-pointer font-thin my-6 block text-lg hover:bg-amber-100 hover:text-amber-500`}>
                             <i className="fa-solid fa-table-cells-large mr-3 "></i>
                             <span>Dashboard</span>
                         </Link>

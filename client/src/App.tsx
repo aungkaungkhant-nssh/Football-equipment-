@@ -3,14 +3,13 @@ import { BrowserRouter } from 'react-router-dom'
 import MainRouter from './MainRouter'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./App.css"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {Toaster} from 'react-hot-toast';
 function App() {
 
   return (
     <BrowserRouter>
         <MainRouter />
-        <ToastContainer />
+        <Toaster />
     </BrowserRouter>
   )
 }

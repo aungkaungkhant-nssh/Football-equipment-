@@ -5,7 +5,10 @@ import brandReducer from '../features/brands/brandSlice'
 import categoryReducer from '../features/categories/categorySlice'
 import customerReducer from '../features/customers/customerSlice'
 import orderReducer from '../features/orders/orderSlice'
-import adminReducer from '../features/adminAuth/authSlice'
+import authReducer from '../features/Auth/authSlice'
+import wishListReducer from '../features/products/wishListSlice'
+import cartReducer from '../features/products/cartSlice'
+import dashboarReducer from '../features/dashboard/dashboardSlice'
 const store =  configureStore({
   reducer: {
     ui:uiReducer,
@@ -14,7 +17,10 @@ const store =  configureStore({
     category:categoryReducer,
     customer:customerReducer,
     order:orderReducer,
-    adminAuth:adminReducer
+    auth:authReducer,
+    wishList:wishListReducer,
+    cart:cartReducer,
+    dashboard:dashboarReducer
   },
 })
 export default store

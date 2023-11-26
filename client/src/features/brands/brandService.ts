@@ -1,5 +1,6 @@
 import { BrandType } from "./brandSlice";
 import Axios from "../../Axios";
+import cloudinary from "../../helper/cloudinary";
 
 const API_URL = "/api/admin/brand"
 
@@ -56,6 +57,7 @@ const deleteBrand =async (id:string,adminToken:string | undefined)=>{
                 Authorization:`Bearer ${adminToken}`
             }
         })
+        cloudinary.destroy(res.data.logo)
         return res.data
     }catch(err:any){
         return err.response
