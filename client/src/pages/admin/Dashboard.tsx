@@ -80,7 +80,6 @@ const Dashboard = () => {
   useEffect(()=>{
     dispatch(fetchLatestDashboardData());
   },[]);
-console.log(dashboard)
 // console.log("dddd"+dashboard?.orders?.reduce((a:any,c:any)=>{
 //   return  parseFloat(c.totalAmount.replace(/,/g,''))
 // },0))
@@ -92,9 +91,13 @@ console.log(dashboard)
         data: labels.map((label) => {
             let price:number = 0;
             dashboard?.orders?.map((order:any)=>{
-                  if(labels[new Date(order.createdAt).getUTCMonth()]=== label){
-                     price  +=  parseFloat(order.totalAmount.replace(/,/g,''))
+                  const orderYear = new Date(order.createdAt).getFullYear();
+                  if(orderYear === new Date().getFullYear()){
+                    if(labels[new Date(order.createdAt).getUTCMonth()]=== label){
+                      price  +=  parseFloat(order.totalAmount.replace(/,/g,''))
+                   }
                   }
+                
                  return 
             },0)
             return price;
@@ -205,7 +208,7 @@ console.log(dashboard)
                         {
                           dashboard?.orders.length > 0 && (
                             dashboard?.orders.slice(0,5).map((order:any)=>(
-                              <tr >
+                              <tr key={order._id}>
                                   <td className="p-5 whitespace-nowrap">
                                     <span className='text-gray-500 font-normal'>
                                       {order._id}

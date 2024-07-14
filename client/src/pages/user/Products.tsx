@@ -51,7 +51,6 @@ const Products = () => {
   
   },[categories])
 
-  console.log(products)
   return (  
     <section className='px-4 '>
             <BreadCrumb items={[{name:"Home",path:"/"},{name:"Products",path:"/products"}]} />
@@ -105,10 +104,10 @@ const Products = () => {
                                                         }
                                                         dispatch(filteredByBrand(e.target.value))
                                                     }} />
-                                                    <p className='ml-2 text-sm text-neutral-500 font-thin lowercase'>{brand.name}</p>
+                                                    <p className='ml-2 text-md text-neutral-500 font-thin lowercase'>{brand.name}</p>
                                                 </div>
                                                 <div>
-                                                    <p className='text-xs text-neutral-500 font-thin'>
+                                                    <p className='text-md text-neutral-500 font-thin'>
                                                     (
                                                     { products.filter((p)=>p.brand[0]._id == brand._id).length}
                                                     )
@@ -137,10 +136,10 @@ const Products = () => {
                                                             if(selectedCategoryId === cat._id) return dispatch(setSelectedCategoryId(""));
                                                             dispatch(filteredByCategory(e.target.value)) 
                                                         }}   name="category" />
-                                                    <p className='ml-2 text-sm text-neutral-500 font-thin'>{cat.name}</p>
+                                                    <p className='ml-2  text-neutral-500 font-thin text-md'>{cat.name}</p>
                                                 </div>
                                                 <div>
-                                                    <p className='text-xs text-neutral-500 font-thin'>
+                                                    <p className=' text-neutral-500 font-thin text-md'>
                                                     (
                                                     {products.filter((p)=>p.category[0]._id == cat._id).length}
                                                     )
@@ -175,10 +174,10 @@ const Products = () => {
                                                                     dispatch(setChooseSize(e.target.value))
                                                                     dispatch(chooseProductSize(e.target.value))
                                                                 }}/>
-                                                                <p className='ml-2 text-sm text-neutral-500 font-thin'>{size}</p>
+                                                                <p className='ml-2 text-md text-neutral-500 font-thin text-md'>{size}</p>
                                                             </div>
                                                             <div>
-                                                            <p className='text-xs text-neutral-500 font-thin'>
+                                                            <p className='text-md text-neutral-500 font-thin'>
                                                                 (
                                                                 {products.filter((p:any)=>p.sizes.find((s:any)=>s===size)).length}
                                                                 )

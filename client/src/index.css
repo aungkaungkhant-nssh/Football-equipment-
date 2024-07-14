@@ -8,21 +8,9 @@
       'sans': ['Kanit', 'ui-sans-serif', 'system-ui'],
     }
 }
-/* .swiper-button-next { 
-  color: #f5980b;
-  width:10px;
-  position:absolute;
-  top:40%;
-  right: 5%;
-}
-.swiper-button-prev { 
-    color: #f5980b;
-    position:absolute;
-    top:40%;
-    right: 5%;
- } */
 
- .swiper-button-next, .swiper-button-prev {
+
+.swiper-button-next, .swiper-button-prev {
   text-rendering: auto;
 }
 .dataTables_wrapper .rdt_TableCell{

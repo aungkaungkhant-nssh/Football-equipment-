@@ -10,9 +10,9 @@ export default cleanEnv(process.env,{
     DB_DEFAULT_DATABASE :str({default:"footballequipment"}),
     JWT_KEY:str({default:"nansusanhtike@107"}),
 
-    STRIPE_SINGNING_SECRET:str({default:"whsec_a96ee65458f86012659d8f1b93005fed8bdfb65f0516898ef2b67b51a52f147a"}),
-    STRIPE_SECRET_KEY:str({default:"sk_test_51NhulAFtJsNegd4lgMeV7TOY9qmc26rOrgLBbc0pbKta8dSK9G4TLC5N1CxirPXHQwENkCnss2UgTB4wvIBjnlPs00bxZb7Aa0"}),
-    STRIPE_API_KEY:str({default:"pk_test_51NhulAFtJsNegd4lYEUQFNeR1luPY9kiMXZs0xMkZBWtPYY90w44YFPpv8HQoubyn6Qz3K8qat9AaZ1wnQhOJS0P00H8dEyZOH"}),
+    STRIPE_SINGNING_SECRET:str({default:"whsec_38c8f9fd500c9e048c314ead7719259a13b3137b069980e90c97e94993d0e340"}),
+    STRIPE_SECRET_KEY:str({default:"sk_test_51OFqbEKcFtr63svvEvTLhUgaFnfRWDPBKVKlnrxhMDFSp7lf3bMIXxoAdJrLOV6uxQZRg3oiraFp8PqSpdU6hIGC00lFVgSZdo"}),
+    STRIPE_API_KEY:str({default:"pk_test_51OFqbEKcFtr63svvKewbvLEbjYlZqV66KNzZRQJ16JUfpH7etSvpGwP4DwElOVEhOOmB3EGdhDb7kScYPNct6Dpb00vDesDmfc"}),
     GOOGLE_CLIENT_ID:str({default:"333967193431-4ibdkbc2tok5o08r2isgi7142q9ll8ui.apps.googleusercontent.com"}),
     GOOGLE_CLIENT_SECRET:str({default:"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"}),
     GOOGLE_CALLBACK:str({default:"http://localhost:8000/google/callback"}),

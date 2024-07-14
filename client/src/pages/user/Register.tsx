@@ -54,11 +54,11 @@ const Register = () => {
                 
                     <div className='w-full my-6'>
                         <label htmlFor="name" className='block text-lg mb-3'>Password</label>
-                        <InputText type="password" value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Password'   errormessages={errormessages} name="password"/>
+                        <InputText type="password"  passwordIndicator={true}  value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Password'   errormessages={errormessages} name="password"/>
                     </div>
                     <div className='w-full my-6'>
                         <label htmlFor="name" className='block text-lg mb-3'>Confirm Password </label>
-                        <InputText type="password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} placeholder='Confirm Password'   errormessages={errormessages} name="confirmPassword"/>
+                        <InputText type="password" passwordIndicator={true} value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} placeholder='Confirm Password'   errormessages={errormessages} name="confirmPassword"/>
                     </div>
           <div className='flex flex-col justify-between md:items-center'>
             <button className='bg-amber-500 text-md text-gray-100 rounded w-[100%] md:w-[60%] rounded-full py-3 hover:bg-amber-600 transition all duration-300 uppercase'>

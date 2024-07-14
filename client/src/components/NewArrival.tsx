@@ -1,6 +1,3 @@
-import React,{useRef, useState} from 'react'
-import Add from '../assets/images/add.jpg'
-import Add2 from '../assets/images/add2.jpg'
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -8,15 +5,15 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ProductType } from '../features/products/productSlice';
 import discountPrice from '../helper/discountPrice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../app/store';
-import { addToCart } from '../features/products/cartSlice';
 import { addToWishList } from '../features/products/wishListSlice';
 import isCheckFavorite from '../helper/isCheckFavorite';
 import useWishList from '../hook/useWishList';
+import Rating from './Rating';
 type PropsType = {
     products:ProductType[]
 }
@@ -30,8 +27,6 @@ const NewArrival = ({products}:PropsType) => {
         <div className=' mb-6 w-full flex items-center justify-between'>
             <h3 className='text-xl tracking-wider uppercase font-thin '>New Arrivals</h3>
             <div className='bg-gray-300 h-0.5 basis-5/12 md:basis-7/12 lg:basis-8/12 xl:basis-9/12'></div>
-        
-          
         </div>
         <div className=' py-4'>
           
@@ -107,11 +102,7 @@ const NewArrival = ({products}:PropsType) => {
                                             <h3 className='text-xl text-slate-700 text-left'>{item.brand[0].name}</h3>
                                             <h2 className='text-neutral-500 text-sm my-3 uppercase tracking-wider'>{item.name}</h2>
                                             <div className='my-4 text-amber-400'>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-solid fa-star"></i>
-                                                <i className="fa-regular fa-star"></i>
+                                                <Rating rating={item.rating || 0} numReviews={0}/>
                                             </div>  
                                             <div className='flex'>
                                                  {
@@ -127,8 +118,6 @@ const NewArrival = ({products}:PropsType) => {
                                                 }
                                             </div>
                                         </div>
-                                    
-                            
                                 </div>
                       
                          </SwiperSlide>

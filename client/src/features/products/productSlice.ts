@@ -156,7 +156,7 @@ export const productSlice =  createSlice({
         filterBySort :(state,action:PayloadAction<any>)=>{
             let result:ProductType[] =[];
             if(action.payload === "price_high_To_low"){     
-                result = state.products.sort((p1,p2) =>{
+                result = state.displayItems.sort((p1,p2) =>{
                     return (
                         (p2.discountPercent ? discountPrice(+p2.price,p2.discountPercent) : +p2.price) 
                         -(p1.discountPercent ? discountPrice(+p1.price,p1.discountPercent) : +p1.price)
@@ -164,7 +164,7 @@ export const productSlice =  createSlice({
                 })
             }
             if(action.payload === "price_low_To_high"){
-                result = state.products.sort((p1,p2) =>{
+                result = state.displayItems.sort((p1,p2) =>{
                     return (
                         (p1.discountPercent ? discountPrice(+p1.price,p1.discountPercent) : +p1.price) 
                         -(p2.discountPercent ? discountPrice(+p2.price,p2.discountPercent) : +p2.price)
@@ -177,11 +177,11 @@ export const productSlice =  createSlice({
             }
 
             if(action.payload === "discount"){
-                result = state.products.filter((a)=>a.discountPercent);
+                 result = state.displayItems.filter((a)=> a.discountPercent && a.discountPercent>0);
             }
 
             if(action.payload === "new_arrivals"){
-                result = state.products.filter((a:any)=> a.isNew)
+                result = state.displayItems.filter((a:any)=> a.isNew)
             }
 
             if(state.selectedBrandId){

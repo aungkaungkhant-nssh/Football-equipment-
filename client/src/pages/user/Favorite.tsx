@@ -10,9 +10,8 @@ const Favorite = () => {
     const {wishLists}  = useWishList();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    console.log(wishLists)
   return (
-    <section className='my-4 px-4'>
+    <section className='my-4 px-4 h-[500px]'>
         <BreadCrumb items={[
             {name:"Home",path:"/"},
             {name:"Favorite_Products",path:"/favorite"}
@@ -33,7 +32,7 @@ const Favorite = () => {
                 wishLists.length>0 ? (
                     <div className='flex overflow-x-scroll whitespace-nowrap '>
                     {wishLists.map((fav)=>(
-                            <div className='basis-3/6 md:basis-[30%] lg:basis-[20%] mb-10'>
+                            <div className='basis-3/6 md:basis-[30%] lg:basis-[20%] mb-10' key={fav._id}>
                                 <div className='border border-gray-200 p-2 mr-4 group cursor-pointer ' onClick={()=>navigate(`/product_details/${fav._id}`)} >
                                         <div className='inline-block relative'>
                                             <img src={fav.images[0].imageUrl} alt=""  />

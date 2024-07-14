@@ -12,12 +12,10 @@ const OrderComplete = () => {
     if(carts) dispatch(removeAllCart(""))
   },[])
   return (
-   <section>
-        
-         <div className='flex flex-col items-center justify-center mt-8'>
+   <section className='h-[500px] flex flex-col items-center justify-center'>
+         <div className='text-center '>
               <div>
                <i className="fa-regular fa-circle-check text-7xl md:text-9xl text-amber-500"></i>
-               
               </div>
               <h3 className='mt-5 text-xl font-bold'>Your Order is Complete</h3>
               <p className='my-4  font-thin text-neutral-400'>You will be receiving a notification with order details</p>
