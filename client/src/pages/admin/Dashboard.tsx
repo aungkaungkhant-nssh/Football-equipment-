@@ -83,6 +83,8 @@ const Dashboard = () => {
 // console.log("dddd"+dashboard?.orders?.reduce((a:any,c:any)=>{
 //   return  parseFloat(c.totalAmount.replace(/,/g,''))
 // },0))
+
+console.log(dashboard)
  const data = {
     labels,
     datasets: [

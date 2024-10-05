@@ -9,8 +9,7 @@ export const getOrders:RequestHandler = async(req,res)=>{
     try{
         let orders = await Order.aggregate([
            ...productPipeLines
-        ]);
-        orders = orders.reverse()
+        ]).sort({ _id: -1 });
         res.status(200).json(orders)
     }catch(err){
         res.status(500).json("Something went wrong")
@@ -28,7 +27,7 @@ export const getOrdersByCustomerId :RequestHandler = async(req,res)=>{
                 }
             },
             ...productPipeLines
-        ])
+        ]).sort({ _id: -1 })
   
         res.status(200).json(orders)
     }catch(err){

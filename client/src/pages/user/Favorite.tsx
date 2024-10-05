@@ -11,7 +11,7 @@ const Favorite = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
   return (
-    <section className='my-4 px-4 h-[500px]'>
+    <section className='my-4 px-4 '>
         <BreadCrumb items={[
             {name:"Home",path:"/"},
             {name:"Favorite_Products",path:"/favorite"}

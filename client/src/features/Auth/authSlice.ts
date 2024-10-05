@@ -45,6 +45,8 @@ export const authSlice = createSlice({
         userLogout:(state,action)=>{
             state.user = null;
             localStorage.removeItem("userInfo");
+            localStorage.removeItem("cartItems")
+            localStorage.removeItem("wishLists")
         },
         resetAdminAuth:(state,action)=>{
             state.loading =false;

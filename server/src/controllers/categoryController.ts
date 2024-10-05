@@ -26,7 +26,7 @@ export const createCategory:RequestHandler = async(req,res)=>{
 // @access  protected
 export const getCategories:RequestHandler = async(req,res)=>{
     try{
-        let categories = await Category.find().sort("_id");
+        let categories = await Category.find().sort({ _id: -1 });
         res.status(200).json(categories)
 
     }catch(err){

@@ -26,8 +26,7 @@ export const createBrand:RequestHandler = async(req,res)=>{
 export const getBrands = async(req:Request,res:Response)=>{
    
     try{
-        let brands = await Brand.find().sort("_id");
-  
+        let brands = await Brand.find().sort({ _id: -1 });
         res.status(200).json(brands)
     }catch(err){
         res.status(500).json({message:"Something went wrong"})
